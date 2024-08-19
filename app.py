@@ -8,7 +8,7 @@ def main():
     os.makedirs('models', exist_ok=True)
 
     # Carregando os dados
-    df = load_data("metrics.csv")
+    df = load_data()
 
     # Pré-processamento dos dados
     df = preprocess_data(df)
