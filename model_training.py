@@ -33,7 +33,7 @@ def train_models(X_train, y_train):
         model.fit(X_train, y_train)
         best_models[name] = model
         # Exportando o modelo após o treinamento
-        dump(model, f'models/{name}_model.joblib')
+        dump(model, f'/app/models/{name}_model.joblib')
         print(f'{name} model saved.')
 
     return best_models
