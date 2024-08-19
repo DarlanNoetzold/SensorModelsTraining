@@ -6,10 +6,24 @@ from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.decomposition import PCA
 from sklearn.feature_selection import SelectKBest, f_regression
+import os
 
 
 def load_data():
-    return pd.read_csv("/app/shared/metrics.csv")
+    folder_path = "/app/shared/"
+
+    csv_files = [f for f in os.listdir(folder_path) if f.startswith("metrics_") and f.endswith(".csv")]
+
+    if not csv_files:
+        raise FileNotFoundError("Nenhum arquivo CSV encontrado na pasta.")
+
+    csv_files.sort(reverse=True)
+
+    latest_csv_file = csv_files[0]
+
+    df = pd.read_csv(os.path.join(folder_path, latest_csv_file))
+
+    return df
 
 
 def preprocess_data(df):
