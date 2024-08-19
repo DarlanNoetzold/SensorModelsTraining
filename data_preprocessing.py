@@ -8,8 +8,8 @@ from sklearn.decomposition import PCA
 from sklearn.feature_selection import SelectKBest, f_regression
 
 
-def load_data(csv_path):
-    return pd.read_csv(csv_path)
+def load_data():
+    return pd.read_csv("/app/shared/metrics.csv")
 
 
 def preprocess_data(df):
