@@ -39,23 +39,20 @@ def preprocess_data(df):
     return df
 
 
-def create_preprocessing_pipeline(df):
+def create_preprocessing_pipeline(numeric_features, categorical_features):
     # Normalização e vetorizaçao das colunas numéricas
-    numeric_features = df.select_dtypes(include=['int64', 'float64']).columns
     numeric_transformer = Pipeline(steps=[
         ('imputer', SimpleImputer(strategy='median')),
-        ('scaler', StandardScaler()),
-        ('pca', PCA(n_components=0.95)),  # Mantendo 95% da variância
-        ('feature_selection', SelectKBest(score_func=f_regression, k=10))
+        ('scaler', StandardScaler())
     ])
 
     # Vetorização das colunas categóricas
-    categorical_features = df.select_dtypes(include=['object']).columns
     categorical_transformer = Pipeline(steps=[
         ('imputer', SimpleImputer(strategy='constant', fill_value='missing')),
         ('onehot', OneHotEncoder(handle_unknown='ignore'))
     ])
 
+    # Aplica transformação para numéricas e categóricas
     preprocessor = ColumnTransformer(
         transformers=[
             ('num', numeric_transformer, numeric_features),
@@ -64,12 +61,32 @@ def create_preprocessing_pipeline(df):
 
     return preprocessor
 
+def apply_feature_selection(X_train, y_train):
+    # Aplicação de PCA e seleção de características após o pré-processamento
+    feature_selector = Pipeline(steps=[
+        ('pca', PCA(n_components=0.95)),  # Mantendo 95% da variância
+        ('feature_selection', SelectKBest(score_func=f_regression, k=10))
+    ])
+
+    X_train_selected = feature_selector.fit_transform(X_train, y_train)
+    return feature_selector, X_train_selected
+
 
 def split_data(df, target_column):
+    print(f"Tentando separar o target: {target_column}")
+
+    if target_column not in df.columns:
+        raise ValueError(
+            f"A coluna {target_column} não foi encontrada no DataFrame. Colunas disponíveis: {df.columns.tolist()}")
+
     X = df.drop(columns=[target_column])
     y = df[target_column]
 
+    print(f"Colunas em X após o drop: {X.columns.tolist()}")
+
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
+    print(f"Shape de X_train: {X_train.shape}")
+    print(f"Shape de y_train: {y_train.shape}")
+
     return X_train, X_test, y_train, y_test
-    
