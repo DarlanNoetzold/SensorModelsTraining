@@ -37,7 +37,7 @@ def main():
         X_test = preprocessor.transform(X_test)
 
         # Treinando os modelos
-        models = train_models(X_train, y_train)
+        models = train_models(X_train, y_train, target)
 
         # Avaliando os modelos
         evaluate_models(models, X_test, y_test)
