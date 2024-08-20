@@ -9,7 +9,7 @@ from sklearn.neural_network import MLPRegressor
 from joblib import dump
 
 
-def train_models(X_train, y_train):
+def train_models(X_train, y_train, target_name):
     models = {
         "RandomForest": RandomForestRegressor(n_estimators=200, max_depth=10, min_samples_split=5, min_samples_leaf=3,
                                               random_state=42),
@@ -29,14 +29,15 @@ def train_models(X_train, y_train):
 
     for name, model in models.items():
         try:
-            print(f"Training {name}...")
+            print(f"Training {name} for target {target_name}...")
             model.fit(X_train, y_train)
             best_models[name] = model
             # Exportando o modelo após o treinamento
-            dump(model, f'/app/models/{name}_model.joblib')
-            print(f'{name} model saved.')
+            model_filename = f'/app/models/{target_name}_{name}_model.joblib'
+            dump(model, model_filename)
+            print(f'{name} model for {target_name} saved as {model_filename}.')
         except Exception as e:
-            print(f"Error training {name}: {e}")
-            print(f"Skipping {name} due to error.")
+            print(f"Error training {name} for target {target_name}: {e}")
+            print(f"Skipping {name} for {target_name} due to error.")
 
     return best_models
