@@ -11,7 +11,7 @@ def main():
     df = load_data()
     print(df.columns)
     # Pré-processamento dos dados
-    df = preprocess_data(df)
+    #df = preprocess_data(df)
 
     print(df.columns)
 
