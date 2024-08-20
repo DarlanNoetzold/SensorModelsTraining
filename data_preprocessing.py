@@ -10,7 +10,7 @@ import os
 
 
 def load_data():
-    folder_path = "/app/shared/"
+    folder_path = "/app/data/"
 
     csv_files = [f for f in os.listdir(folder_path) if f.startswith("metrics_") and f.endswith(".csv")]
 
