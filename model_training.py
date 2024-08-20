@@ -28,11 +28,15 @@ def train_models(X_train, y_train):
     best_models = {}
 
     for name, model in models.items():
-        print(f"Training {name}...")
-        model.fit(X_train, y_train)
-        best_models[name] = model
-        # Exportando o modelo após o treinamento
-        dump(model, f'/app/models/{name}_model.joblib')
-        print(f'{name} model saved.')
+        try:
+            print(f"Training {name}...")
+            model.fit(X_train, y_train)
+            best_models[name] = model
+            # Exportando o modelo após o treinamento
+            dump(model, f'/app/models/{name}_model.joblib')
+            print(f'{name} model saved.')
+        except Exception as e:
+            print(f"Error training {name}: {e}")
+            print(f"Skipping {name} due to error.")
 
     return best_models
