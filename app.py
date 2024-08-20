@@ -9,9 +9,11 @@ def main():
 
     # Carregando os dados
     df = load_data()
-
+    print(df.columns)
     # Pré-processamento dos dados
     df = preprocess_data(df)
+
+    print(df.columns)
 
     # Criando o pipeline de pré-processamento
     preprocessor = create_preprocessing_pipeline(df)
