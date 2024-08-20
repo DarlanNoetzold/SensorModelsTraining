@@ -17,9 +17,9 @@ def main():
     preprocessor = create_preprocessing_pipeline(df)
 
     # Dividindo os dados e aplicando o pré-processamento
-    target_columns = ["cpu_usage", "memory_usage", "thread_count", "error_count",
-                      "total_data_received", "total_data_filtered", "total_data_compressed",
-                      "total_data_aggregated", "total_data_after_heuristics"]
+    target_columns = ["ID", "CPU Usage", "Memory Usage", "Thread Count", "Error Count",
+                      "Total Data Received", "Total Data Filtered", "Total Data Compressed",
+                      "Total Data Aggregated", "Total Data After Heuristics"]
 
     for target in target_columns:
         print(f"\nTraining and evaluating for target: {target}")
